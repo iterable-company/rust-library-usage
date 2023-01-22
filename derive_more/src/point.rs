@@ -40,12 +40,21 @@ impl FromStr for Point {
             .chars()
             .filter(|ch| !ch.is_whitespace())
             .collect::<String>();
-        let caps = re.captures(&str).ok_or(anyhow!("not match"))?;
-        let x = caps.get(1).map_or("not match", |m| m.as_str());
-        let y = caps.get(2).map_or("not match", |m| m.as_str());
+        let caps = re
+            .captures(&str)
+            .ok_or(anyhow!("can't convert into Point from {}", str))?;
+        let x = caps.get(1).map_or("0", |m| m.as_str());
+        let y = caps.get(2).map_or("0", |m| m.as_str());
         Ok(Self {
             x: x.parse()?,
             y: y.parse()?,
         })
+    }
+}
+
+use std::fmt::Display;
+impl Display for Point {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
     }
 }
