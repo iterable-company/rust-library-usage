@@ -63,10 +63,36 @@ pub mod point {
             Self { x: value.0, y: value.1 }
         }
     }
+    use anyhow::anyhow;
+    use regex::Regex;
+    use std::str::FromStr;
+    impl FromStr for Point {
+        type Err = anyhow::Error;
+        fn from_str(s: &str) -> Result<Self, Self::Err> {
+            let re = Regex::new(r"\(([0-9]+),([0-9]+)\)")?;
+            let str = s.chars().filter(|ch| !ch.is_whitespace()).collect::<String>();
+            let caps = re
+                .captures(&str)
+                .ok_or(
+                    ::anyhow::__private::must_use({
+                        let error = ::anyhow::__private::format_err(
+                            ::core::fmt::Arguments::new_v1(&["not match"], &[]),
+                        );
+                        error
+                    }),
+                )?;
+            let x = caps.get(1).map_or("not match", |m| m.as_str());
+            let y = caps.get(2).map_or("not match", |m| m.as_str());
+            Ok(Self {
+                x: x.parse()?,
+                y: y.parse()?,
+            })
+        }
+    }
 }
 pub mod wrapper {
     use crate::point::Point;
-    use derive_more::{Add, Display, From, Into};
+    use derive_more::{Add, From, FromStr, Into};
     use derive_new::new;
     pub struct Point2(Point);
     #[automatically_derived]
@@ -97,6 +123,13 @@ pub mod wrapper {
         #[inline]
         fn add(self, rhs: Point2) -> Point2 {
             Point2(self.0.add(rhs.0))
+        }
+    }
+    impl ::core::str::FromStr for Point2 {
+        type Err = <Point as ::core::str::FromStr>::Err;
+        #[inline]
+        fn from_str(src: &str) -> ::core::result::Result<Self, Self::Err> {
+            Ok(Point2(<Point as ::core::str::FromStr>::from_str(src)?))
         }
     }
     #[automatically_derived]
@@ -159,6 +192,20 @@ fn main() {
             }
         }
     };
+    let p12: Point = "(1, 3)".parse().unwrap();
+    match (&p12, &Point::new(1, 3)) {
+        (left_val, right_val) => {
+            if !(*left_val == *right_val) {
+                let kind = ::core::panicking::AssertKind::Eq;
+                ::core::panicking::assert_failed(
+                    kind,
+                    &*left_val,
+                    &*right_val,
+                    ::core::option::Option::None,
+                );
+            }
+        }
+    };
     let p6 = Point2::new((1, 2).into());
     let p7 = Point2::new((3, 5).into());
     let p8 = p6 + p7;
@@ -178,6 +225,20 @@ fn main() {
     let p9 = Point::new(1, 2);
     let p10 = Point2::from(p9);
     match (&p10, &Point2::new((1, 2).into())) {
+        (left_val, right_val) => {
+            if !(*left_val == *right_val) {
+                let kind = ::core::panicking::AssertKind::Eq;
+                ::core::panicking::assert_failed(
+                    kind,
+                    &*left_val,
+                    &*right_val,
+                    ::core::option::Option::None,
+                );
+            }
+        }
+    };
+    let p11: Point = p10.into();
+    match (&p11, &Point::new(1, 2)) {
         (left_val, right_val) => {
             if !(*left_val == *right_val) {
                 let kind = ::core::panicking::AssertKind::Eq;

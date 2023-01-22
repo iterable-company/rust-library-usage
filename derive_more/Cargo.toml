@@ -7,3 +7,5 @@ publish = false
 [dependencies]
 derive-new = "0.5.9"
 derive_more = "0.99.17"
+regex = "1.7.1"
+anyhow = "1.0.68"

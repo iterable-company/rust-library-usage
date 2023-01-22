@@ -16,6 +16,9 @@ fn main() {
     let p5: Point = (2, 3).into();
     assert_eq!(p5, Point::new(2, 3));
 
+    let p12: Point = "(1, 3)".parse().unwrap();
+    assert_eq!(p12, Point::new(1, 3));
+
     // wrapper
     let p6 = Point2::new((1, 2).into());
     let p7 = Point2::new((3, 5).into());
@@ -26,4 +29,7 @@ fn main() {
     assert_eq!(p10, Point2::new((1, 2).into()));
     let p11: Point = p10.into();
     assert_eq!(p11, Point::new(1, 2));
+
+    let p12: Point2 = "(3, 9)".parse().unwrap();
+    assert_eq!(p12, Point2::new((3, 9).into()));
 }

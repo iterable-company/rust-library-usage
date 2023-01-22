@@ -27,3 +27,25 @@ impl From<(i32, i32)> for Point {
         }
     }
 }
+
+use anyhow::anyhow;
+use regex::Regex;
+use std::str::FromStr;
+impl FromStr for Point {
+    type Err = anyhow::Error;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let re = Regex::new(r"\(([0-9]+),([0-9]+)\)")?;
+        let str = s
+            .chars()
+            .filter(|ch| !ch.is_whitespace())
+            .collect::<String>();
+        let caps = re.captures(&str).ok_or(anyhow!("not match"))?;
+        let x = caps.get(1).map_or("not match", |m| m.as_str());
+        let y = caps.get(2).map_or("not match", |m| m.as_str());
+        Ok(Self {
+            x: x.parse()?,
+            y: y.parse()?,
+        })
+    }
+}
