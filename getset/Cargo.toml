@@ -1,0 +1,9 @@
+[package]
+name = "derive_getters"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+derive-new = "0.5.9"
+getset = "0.1.2"
