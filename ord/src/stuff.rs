@@ -5,7 +5,7 @@ pub struct Stuff {
     age: u32,
 }
 
-#[derive(Ord, PartialOrd, Eq, PartialEq, Debug, new)]
+#[derive(Ord, PartialOrd, Eq, PartialEq, Clone, Debug, new)]
 pub struct Name{
     first: String,
     second: String,
