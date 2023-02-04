@@ -58,6 +58,9 @@ fn strum_enumstring() {
 
     let grape = Fruit::from_str("Grape");
     assert_eq!(Ok(Fruit::Grape), grape);
+
+    let orange5 = Fruit::try_from("o");
+    assert_eq!(Ok(Fruit::Orange), orange5);
 }
 #[derive(EnumString, PartialEq, Debug)] // EnumString implements FromStr and TryFrom.
 enum Fruit {
