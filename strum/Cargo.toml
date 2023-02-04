@@ -1,0 +1,12 @@
+[package]
+name = "strum"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+derive-new = "0.5.9"
+strum = "0.24.1"
+strum_macros = "0.24.3"
+regex = "1.7.1"
+anyhow = "1.0.68"
