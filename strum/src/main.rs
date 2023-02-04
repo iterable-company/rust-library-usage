@@ -53,13 +53,13 @@ fn strum_enumstring() {
 
     assert_eq!(Ok(Fruit::Orange), orange1);
     assert_eq!(Ok(Fruit::Orange), orange2);
-    assert!(orange3.is_err()); // => this result in parse error because strum_macros override the implementation of from_str
+    assert!(orange3.is_err());
     assert!(orange4.is_err());
 
     let grape = Fruit::from_str("Grape");
     assert_eq!(Ok(Fruit::Grape), grape);
 }
-#[derive(EnumString, PartialEq, Debug)]
+#[derive(EnumString, PartialEq, Debug)] // EnumString implements FromStr and TryFrom.
 enum Fruit {
     Grape,
     #[strum(serialize = "or", serialize = "o")]
