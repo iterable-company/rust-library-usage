@@ -1,0 +1,9 @@
+[package]
+name = "indexmap"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+itertools = "0.10.5"
+anyhow = "1.0.68"
