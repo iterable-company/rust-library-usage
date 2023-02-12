@@ -1,0 +1,10 @@
+[package]
+name = "indexed_map"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+derive-new = "0.5.9"
+indexmap = "1.9.2"
+anyhow = "1.0.68"
