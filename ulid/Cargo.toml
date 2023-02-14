@@ -1,0 +1,9 @@
+[package]
+name = "ulid"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+ulid = "1.0.0"
+anyhow = "1.0.68"

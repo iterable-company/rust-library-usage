@@ -17,7 +17,7 @@ fn diff_with_() {
         _ => panic!("!!!"),
     }
 
-    match diff_with(vec![1, 2, 3], vec![2, 4], |i, j| 2 * i == *j) {
+    match diff_with(vec![1, 2, 3, 4, 5], vec![2, 4], |i, j| 2 * i == *j) {
         Some(Diff::Shorter(idx, i)) => {
             println!("i: {:?}", i);
             assert_eq!(idx, 2)
@@ -25,9 +25,9 @@ fn diff_with_() {
         _ => panic!("!!!"),
     }
 
-    match diff_with(vec![1, 2], vec![2, 4, 6], |i, j| 2 * i == *j) {
-        Some(Diff::Longer(idx, i)) => {
-            println!("i: {:?}", i);
+    match diff_with(vec![1, 2], vec![2, 4, 6, 8, 10], |i, j| 2 * i == *j) {
+        Some(Diff::Longer(idx, j)) => {
+            println!("j: {:?}", j);
             assert_eq!(idx, 2)
         }
         _ => panic!("!!!"),
