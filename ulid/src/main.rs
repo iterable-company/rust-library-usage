@@ -14,7 +14,7 @@ fn partial_ord() {
 }
 
 fn increment_random() {
-    let text = "01D39ZY06FGSCTVN4T2V9PKHFZ";
+    let text = "01BX5ZZKBKACTAV9WEVGEMMVRY";
     let result = Ulid::from_string(text).unwrap();
 
     let timestamp = result.timestamp_ms();
@@ -24,4 +24,9 @@ fn increment_random() {
 
     assert_eq!(incremented.timestamp_ms(), timestamp);
     assert_eq!(Ulid::from_parts(timestamp, random + 1), incremented);
+
+    assert_eq!(
+        incremented.to_string(),
+        "01BX5ZZKBKACTAV9WEVGEMMVRZ".to_string()
+    );
 }
