@@ -4,10 +4,17 @@ use derive_getters::Getters;
 use stuff::Stuff;
 
 fn main() {
+    getters();
+    dissolve();
+}
+
+fn getters() {
     let point = Point { x: 3, y: 4 };
     assert_eq!(3, *point.x());
     assert_eq!(4, *point.y());
+}
 
+fn dissolve() {
     let stuff = Stuff::new(String::from("Taro YAMADA"), 50, String::from("Kyoto"));
     // プロパティが pub ではないので、以下のコードはコンパイルエラーになる
     //
