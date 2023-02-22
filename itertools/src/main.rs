@@ -1,8 +1,9 @@
 fn main() {
     diff_with_();
+    zip_longest_();
 }
 
-use itertools::{diff_with, Diff};
+use itertools::{diff_with, Diff, Itertools};
 fn diff_with_() {
     match diff_with(vec![1, 2, 3], vec![2, 4, 6], |i, j| 2 * i == *j) {
         None => (),
@@ -32,4 +33,56 @@ fn diff_with_() {
         }
         _ => panic!("!!!"),
     }
+}
+
+fn zip_longest_() {
+    // case: same length
+    assert_eq!(
+        zip_longest__(
+            vec![1, 2, 3],
+            vec!["one".to_string(), "two".to_string(), "three".to_string()]
+        ),
+        vec![
+            (1, "one".to_string()),
+            (2, "two".to_string()),
+            (3, "three".to_string())
+        ]
+    );
+    // case: left is longger than right
+    assert_eq!(
+        zip_longest__(
+            vec![1, 2, 3, 4],
+            vec!["one".to_string(), "two".to_string(), "three".to_string()]
+        ),
+        vec![
+            (1, "one".to_string()),
+            (2, "two".to_string()),
+            (3, "three".to_string()),
+            (4, "".to_string())
+        ]
+    );
+    // case: left is shorter than right
+    assert_eq!(
+        zip_longest__(
+            vec![1, 2],
+            vec!["one".to_string(), "two".to_string(), "three".to_string()]
+        ),
+        vec![
+            (1, "one".to_string()),
+            (2, "two".to_string()),
+            (0, "three".to_string()),
+        ]
+    );
+}
+
+use itertools::EitherOrBoth::*;
+fn zip_longest__(nums: Vec<i32>, strings: Vec<String>) -> Vec<(i32, String)> {
+    nums.into_iter()
+        .zip_longest(strings.into_iter())
+        .filter_map(|elem| match elem {
+            Both(num, string) => Some((num, string)),
+            Left(num) => Some((num, "".to_string())),
+            Right(string) => Some((0, string)),
+        })
+        .collect()
 }
