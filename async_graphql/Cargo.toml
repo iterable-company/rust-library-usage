@@ -1,0 +1,16 @@
+[package]
+name = "graphql"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+async-graphql = { version = "5.0.5", features = ["decimal", "log"] }
+async-graphql-axum = "5.0.5"
+axum = { version = "0.6.2", features = ["headers"] }
+anyhow = "1.0.68"
+tokio = { version = "1.24.1", features = ["macros", "rt-multi-thread"] }
+derive-new = "0.5.9"
+indexmap = "1.9.2"
+thiserror = "1.0.38"
+lazy_static = "1.4.0"
