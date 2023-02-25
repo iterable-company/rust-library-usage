@@ -1,13 +1,10 @@
-use std::{
-    cell::RefCell,
-    sync::{Arc, Mutex},
-};
+use std::sync::{Arc, Mutex};
 
 use axum::Extension;
 
 pub mod domain;
 pub mod graphql;
-use once_cell::sync::{Lazy, OnceCell};
+use once_cell::sync::Lazy;
 
 use domain::lib::{Player, SportsKind, Team};
 use graphql::{handler::graphql_handler, schema_with::schema_with};

@@ -10,6 +10,7 @@ pub struct Query(pub &'static Lazy<Arc<Mutex<IndexMap<Team, Vec<Player>>>>>);
 #[async_graphql::Object]
 impl Query {
     async fn teams(&self) -> async_graphql::Result<Vec<Team>> {
+        println!("teams");
         Ok(self
             .0
             .lock()
@@ -20,6 +21,7 @@ impl Query {
     }
 
     async fn get_player_by_id(&self, id: i32) -> async_graphql::Result<Player> {
+        println!("get_player_by_id");
         Ok(self
             .0
             .lock()

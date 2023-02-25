@@ -21,8 +21,10 @@ pub async fn graphql_handler(
     schema: axum::extract::Extension<Schema>,
     request: Request<axum::body::Body>,
 ) -> Result<async_graphql_axum::GraphQLResponse, StatusCode> {
+    println!("graphql_handler");
     let (request_parts, body) = request.into_parts();
 
+    println!("body: {:?}", body);
     let graphql_request = async_graphql_axum::GraphQLRequest::<BadRequest>::from_request(
         Request::from_parts(request_parts, body),
         &(),
@@ -31,6 +33,7 @@ pub async fn graphql_handler(
     .map_err(|_rejection| StatusCode::BAD_REQUEST)?;
 
     let request = graphql_request.into_inner();
+    println!("request: {:?}", request);
     let response = schema.execute(request).await.into();
     Ok(response)
 }

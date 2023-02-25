@@ -17,5 +17,8 @@ pub fn schema_with(data: &'static Lazy<Arc<Mutex<IndexMap<Team, Vec<Player>>>>>)
         async_graphql::EmptySubscription,
     )
     .disable_introspection()
+    .extension(async_graphql::extensions::Analyzer)
+    .extension(async_graphql::extensions::Logger)
+    .data(data)
     .finish()
 }
