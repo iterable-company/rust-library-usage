@@ -569,7 +569,7 @@ dependencies = [
  "axum",
  "derive-new",
  "indexmap",
- "lazy_static",
+ "once_cell",
  "thiserror",
  "tokio",
 ]

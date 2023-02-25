@@ -1,8 +1,11 @@
+use std::sync::{Arc, Mutex};
+
 use indexmap::IndexMap;
+use once_cell::sync::Lazy;
 
 use crate::domain::lib::{NewPlayer, Player, Team};
 
-pub struct Mutation(pub &'static IndexMap<Team, Vec<Player>>);
+pub struct Mutation(pub &'static Lazy<Arc<Mutex<IndexMap<Team, Vec<Player>>>>>);
 
 #[async_graphql::Object]
 impl Mutation {
