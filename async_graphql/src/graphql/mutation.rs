@@ -9,13 +9,24 @@ pub struct Mutation(pub &'static Lazy<Arc<Mutex<IndexMap<Team, Vec<Player>>>>>);
 
 #[async_graphql::Object]
 impl Mutation {
-    async fn add_player(&self, id: i32, new_player: NewPlayer) -> async_graphql::Result<Player> {
+    async fn add_player(
+        &self,
+        team_id: i32,
+        new_player: NewPlayer,
+    ) -> async_graphql::Result<Player> {
         let (team, player) = {
             let map = self
                 .0
                 .lock()
                 .map_err(|_| async_graphql::Error::new("can't obtain lock"))?;
-            let team = map.keys().find(|team| team.id == id).unwrap().clone();
+            let team = map
+                .keys()
+                .find(|team| team.id == team_id)
+                .ok_or(async_graphql::Error::new(format!(
+                    "not found team: {}",
+                    team_id
+                )))?
+                .clone();
             let mut ids: Vec<_> = map
                 .values()
                 .flat_map(|players| players.into_iter())
