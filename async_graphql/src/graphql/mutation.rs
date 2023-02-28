@@ -9,13 +9,7 @@ pub struct Mutation(pub &'static Lazy<Arc<Mutex<IndexMap<Team, Vec<Player>>>>>);
 
 #[async_graphql::Object]
 impl Mutation {
-    async fn add_player(
-        &self,
-        id: i32,
-        name: String,
-        age: u32,
-        position: String,
-    ) -> async_graphql::Result<Player> {
+    async fn add_player(&self, id: i32, new_player: NewPlayer) -> async_graphql::Result<Player> {
         let (team, player) = {
             let map = self
                 .0
@@ -29,12 +23,7 @@ impl Mutation {
                 .collect();
             ids.sort();
             let new_id = ids.last().unwrap() + 1;
-            let player = Player {
-                id: new_id,
-                name: name,
-                age: age,
-                position: position,
-            };
+            let player = Player::from_with_id(new_player, new_id);
             (team, player)
         };
         let mut map = self
