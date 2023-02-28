@@ -6,7 +6,7 @@ pub mod domain;
 pub mod graphql;
 use once_cell::sync::Lazy;
 
-use domain::lib::{Player, SportsKind, Team};
+use domain::model::{Player, SportsKind, Team};
 use graphql::{handler::graphql_handler, schema_with::schema_with};
 use indexmap::IndexMap;
 

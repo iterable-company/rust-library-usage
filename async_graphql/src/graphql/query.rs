@@ -3,7 +3,7 @@ use std::sync::{Arc, Mutex};
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
 
-use crate::domain::lib::{Player, Team};
+use crate::domain::model::{Player, Team};
 
 pub struct Query(pub &'static Lazy<Arc<Mutex<IndexMap<Team, Vec<Player>>>>>);
 
