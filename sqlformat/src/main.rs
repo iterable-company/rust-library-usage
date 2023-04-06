@@ -1,6 +1,11 @@
 use sqlformat::{format, FormatOptions, Indent, QueryParams};
 
 fn main() {
+    format_complecated_stetement();
+    format_including_params();
+}
+
+fn format_complecated_stetement() {
     let source_sql = r#"
 WITH
 pg AS (
@@ -40,4 +45,18 @@ INNER JOIN pg ON pg.apartment_id=detail.apartment_id AND pg.count=2
         lines_between_queries: 1,
     };
     println!("{}", format(source_sql, &QueryParams::None, format_option))
+}
+
+fn format_including_params() {
+    let source_sql = "SELECT * FROM cities WHERE prefecture = :prefecture AND latitude > :lat";
+    let params = QueryParams::Named(vec![
+        ("prefecture".to_string(), "'北海道'".to_string()),
+        ("lat".to_string(), "43.05".to_string()),
+    ]);
+    let format_option = FormatOptions {
+        indent: Indent::Spaces(4),
+        uppercase: false,
+        lines_between_queries: 1,
+    };
+    println!("{}", format(source_sql, &params, format_option))
 }
