@@ -6,7 +6,20 @@ pub struct Stuff {
 }
 
 #[derive(Ord, PartialOrd, Eq, PartialEq, Clone, Debug, new)]
-pub struct Name{
+pub struct Name {
     first: String,
     second: String,
+}
+
+#[derive(Ord, PartialOrd, Eq, PartialEq, Debug)]
+pub enum Position {
+    Pitcher,
+    Catcher,
+    FirstBaseMan,
+    SecondBaseMan,
+    ThirdBaseMan,
+    ShortStop,
+    RightFielder,
+    CenterFielder,
+    LeftFielder,
 }
