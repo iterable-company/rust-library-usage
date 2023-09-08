@@ -1,8 +1,13 @@
+use std::time::Instant;
+
+use itertools::Itertools;
 use sqlformat::{format, FormatOptions, Indent, QueryParams};
 
 fn main() {
-    format_complecated_stetement();
-    format_including_params();
+    //format_complecated_stetement();
+    //format_including_params();
+    three_columns();
+    four_columns();
 }
 
 fn format_complecated_stetement() {
@@ -59,4 +64,30 @@ fn format_including_params() {
         lines_between_queries: 1,
     };
     println!("{}", format(source_sql, &params, format_option))
+}
+
+fn three_columns() {
+    let mut lines = vec![];
+    for idx in 0..10000 {
+        lines.push(format!("('id', {idx}, 1)"));
+    }
+    let sql = format!("INSERT INTO cities values {};",lines.iter().join(",") );
+
+    let now = Instant::now();
+    sqlformat::format(&sql, &sqlformat::QueryParams::None, sqlformat::FormatOptions::default());
+    let elapsed = now.elapsed();
+    println!("three columns. Elapsed time: {:?}", elapsed);
+}
+
+fn four_columns() {
+    let mut lines = vec![];
+    for idx in 0..10000 {
+        lines.push(format!("('id', {idx}, 1, true)"));
+    }
+    let sql = format!("INSERT INTO cities values {};",lines.iter().join(",") );
+
+    let now = Instant::now();
+    sqlformat::format(&sql, &sqlformat::QueryParams::None, sqlformat::FormatOptions::default());
+    let elapsed = now.elapsed();
+    println!("four columns. Elapsed time: {:?}", elapsed);
 }
