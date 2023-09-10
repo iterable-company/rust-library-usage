@@ -1,9 +1,8 @@
 [package]
-name = "sqlformat"
+name = "sqlx"
 version = "0.1.0"
 edition = "2021"
 publish = false
 
 [dependencies]
-sqlformat = "=0.2.1"
-itertools = "0.10.5"
+sqlx = "0.7.1"
