@@ -1,4 +1,4 @@
-use std::time::Instant;
+use std::{time::Instant, fs::File, io::Read};
 
 use itertools::Itertools;
 use sqlformat::{format, FormatOptions, Indent, QueryParams};
@@ -6,8 +6,9 @@ use sqlformat::{format, FormatOptions, Indent, QueryParams};
 fn main() {
     //format_complecated_stetement();
     //format_including_params();
-    three_columns();
+    // three_columns();
     four_columns();
+    //in_clause();
 }
 
 fn format_complecated_stetement() {
@@ -82,12 +83,24 @@ fn three_columns() {
 fn four_columns() {
     let mut lines = vec![];
     for idx in 0..10000 {
-        lines.push(format!("('id', {idx}, 1, true)"));
+        lines.push(format!("('id', '{idx}', 1, true)"));
     }
     let sql = format!("INSERT INTO cities values {};",lines.iter().join(",") );
 
     let now = Instant::now();
     sqlformat::format(&sql, &sqlformat::QueryParams::None, sqlformat::FormatOptions::default());
+    let elapsed = now.elapsed();
+    println!("four columns. Elapsed time: {:?}", elapsed);
+}
+
+fn in_clause() {
+    let filename = "sql_file";
+    let mut file = File::open(filename).unwrap();
+    let mut content = String::new();
+    file.read_to_string(&mut content).unwrap();
+
+    let now = Instant::now();
+    sqlformat::format(&content, &sqlformat::QueryParams::None, sqlformat::FormatOptions::default());
     let elapsed = now.elapsed();
     println!("four columns. Elapsed time: {:?}", elapsed);
 }
